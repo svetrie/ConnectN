@@ -13,8 +13,10 @@ class GameBoard {
 	public:
 		GameBoard();
 		bool isDiagonalWin(int row, int column);
-		bool isVerticalWin(int column);
-		bool isHorizontalWin(int row);
+		bool isForwardDiagonalWin(int row, int column);
+		bool isBackwardDiagonalWin(int row, int column);
+		bool isVerticalWin(int player, int column);
+		bool isHorizontalWin(int player, int row);
 		bool dropChecker(int player, int column);
 };
 
