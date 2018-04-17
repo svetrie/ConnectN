@@ -5,7 +5,19 @@ GameBoard::GameBoard() {
 }
 
 bool GameBoard::dropChecker(int player, int column) {
+	int  i;
 
+	for (i = 0; i < board.size(); i++) {
+		if (board[i][column] != 0) {
+			board[i - 1][column] = player;
+			i--;
+		} else if (i == board.size() - 1) {
+			board[i][column] = player;
+		}
+	}
+
+	return (isDiagonalWin(i, column) || isHorizontalWin(player, i) 
+		|| isVerticalWin(player, column));
 }
 
 bool GameBoard::isBackwardDiagonalWin(int row, int column) {
@@ -58,7 +70,6 @@ bool GameBoard::isForwardDiagonalWin(int row, int column) {
 		row--;
 		column++;
 	}
-
 }
 
 bool GameBoard::isDiagonalWin(int row, int column) {
