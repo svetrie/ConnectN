@@ -188,7 +188,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
     <ClCompile Include="src\GameBoard.cpp" />
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\GameBoardTest.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +201,7 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\catch.hpp" />
     <ClInclude Include="src\GameBoard.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>

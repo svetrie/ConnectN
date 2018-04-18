@@ -4,11 +4,25 @@ GameBoard::GameBoard() {
 	board = vector<vector<int>>(6, vector<int>(7, 0));
 }
 
+vector<vector<int>> GameBoard::getBoard() {
+	return board;
+}
+
+void GameBoard::setBoardRow(int row_num, vector<int> new_row) {
+	board[row_num] = new_row;
+}
+
+void GameBoard::setBoardCol(int col_num, vector<int> new_col) {
+	for (int i = 0; i < board.size(); i++) {
+		board[i][col_num] = new_col[i];
+	}
+}
+
 bool GameBoard::dropChecker(int player, int column) {
 	int  i;
 
 	for (i = 0; i < board.size(); i++) {
-		if (board[i][column] != 0) {
+		if (i > 0 && board[i][column] != 0) {
 			board[i - 1][column] = player;
 			i--;
 		} else if (i == board.size() - 1) {
@@ -17,7 +31,7 @@ bool GameBoard::dropChecker(int player, int column) {
 	}
 
 	return (isDiagonalWin(i, column) || isHorizontalWin(player, i) 
-		|| isVerticalWin(player, column));
+		|| isVerticalWin(player, column)); 
 }
 
 bool GameBoard::isBackwardDiagonalWin(int row, int column) {
