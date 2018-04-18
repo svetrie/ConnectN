@@ -96,3 +96,27 @@ TEST_CASE("CornersForwardDiagonalTest") {
 	REQUIRE(!gameboard.isForwardDiagonalWin(0, 5, 6));
 	REQUIRE(gameboard.isForwardDiagonalWin(0, 0, 6));
 }
+
+TEST_CASE("DropCheckerEmptyColumnTest") {
+	GameBoard gameboard = GameBoard();
+	gameboard.dropChecker(2, 0);
+
+	REQUIRE(gameboard.getBoard()[5][0] == 2);
+}
+
+TEST_CASE("DropCheckerTest") {
+	GameBoard gameboard = GameBoard();
+	gameboard.setBoardAt(2, 5, 0);
+	gameboard.dropChecker(2, 0);
+
+	REQUIRE(gameboard.getBoard()[4][0] == 2);
+}
+
+TEST_CASE("DropCheckerFullColumnTest") {
+	GameBoard gameboard = GameBoard();
+	vector<int> column{ 0,1,1,1,1,1 };
+	gameboard.setBoardCol(0, column);
+	gameboard.dropChecker(2, 0);
+
+	REQUIRE(gameboard.getBoard()[0][0] == 2);
+}

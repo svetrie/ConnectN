@@ -24,7 +24,7 @@ class GameBoard {
 		bool isVerticalWin(int player, int column);
 		bool isHorizontalWin(int player, int row);
 		
-		bool dropChecker(int player, int column);
+		void dropChecker(int player, int column);
 };
 
 #endif // !GB_H
