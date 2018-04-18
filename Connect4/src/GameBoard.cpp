@@ -114,7 +114,7 @@ bool GameBoard::isVerticalWin(int player, int column) {
 	int count = 0;
 
 	for (int i = 0; i < board.size(); i++) {
-		if (board[i][column == player]) {
+		if (board[i][column] == player) {
 			count++;
 		} else {
 			count = 0;
