@@ -1,12 +1,11 @@
 ﻿  GameBoard.cpp
-src\GameBoard.cpp(16): warning C4018: '<': signed/unsigned mismatch
 src\GameBoard.cpp(24): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(41): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(68): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(73): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(98): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(116): warning C4018: '<': signed/unsigned mismatch
-c:\users\vet senthil\visual studio 2015\of_v0.9.8_vs_release\apps\connect4\connect4\src\gameboard.cpp(87): warning C4715: 'GameBoard::isForwardDiagonalWin': not all control paths return a value
+src\GameBoard.cpp(32): warning C4018: '<': signed/unsigned mismatch
+src\GameBoard.cpp(48): warning C4018: '<': signed/unsigned mismatch
+src\GameBoard.cpp(79): warning C4018: '<': signed/unsigned mismatch
+src\GameBoard.cpp(87): warning C4018: '<': signed/unsigned mismatch
+src\GameBoard.cpp(115): warning C4018: '<': signed/unsigned mismatch
+src\GameBoard.cpp(133): warning C4018: '<': signed/unsigned mismatch
   Connect4.vcxproj -> C:\Users\Vet Senthil\Visual Studio 2015\of_v0.9.8_vs_release\apps\Connect4\Connect4\bin\Connect4_debug.exe
   Connect4.vcxproj -> bin\Connect4_debug.pdb (Full PDB)
   

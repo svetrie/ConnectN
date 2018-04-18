@@ -1,11 +1,19 @@
 #include "GameBoard.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 GameBoard::GameBoard() {
 	board = vector<vector<int>>(6, vector<int>(7, 0));
 }
 
-vector<vector<int>> GameBoard::getBoard() {
+vector<vector<int>>& GameBoard::getBoard() {
 	return board;
+}
+
+void GameBoard::setBoardAt(int player, int row, int column) {
+	board[row][column] = player;
 }
 
 void GameBoard::setBoardRow(int row_num, vector<int> new_row) {
@@ -34,8 +42,7 @@ bool GameBoard::dropChecker(int player, int column) {
 		|| isVerticalWin(player, column)); 
 }
 
-bool GameBoard::isBackwardDiagonalWin(int row, int column) {
-	int player = board[row][column];
+bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 	int count = 0;
 
 	while (row < board.size() && column < board[row].size()) {
@@ -43,7 +50,10 @@ bool GameBoard::isBackwardDiagonalWin(int row, int column) {
 		column++;
 	}
 
-	while (row > 0 && column > 0) {
+	row--;
+	column--;
+
+	while (row >= 0 && column >= 0) {
 		if (board[row][column] == player) {
 			count++;
 		} else {
@@ -61,16 +71,20 @@ bool GameBoard::isBackwardDiagonalWin(int row, int column) {
 	return false;
 }
 
-bool GameBoard::isForwardDiagonalWin(int row, int column) {
-	int player = board[row][column];
+bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 	int count = 0;
 
-	while (row < board.size() && column > 0) {
+	cout << "works before loop" << endl;
+
+	while (row < board.size() && column >= 0) {
 		row++;
 		column--;
 	}
 
-	while (row > 0 && column < board[row].size()) {
+	row--;
+	column++;
+
+	while (row >= 0 && column < board[row].size()) {
 		if (board[row][column] == player) {
 			count++;
 		} else {
@@ -84,12 +98,15 @@ bool GameBoard::isForwardDiagonalWin(int row, int column) {
 		row--;
 		column++;
 	}
+
+	cout << "works after second loop" << endl;
+
+	return false;
 }
 
 bool GameBoard::isDiagonalWin(int row, int column) {
-	int count = 0;
-	
-	return (isForwardDiagonalWin(row, column) || isBackwardDiagonalWin(row, column));
+	int player = board[row][column];
+	return (isForwardDiagonalWin(player, row, column) || isBackwardDiagonalWin(player, row, column));
 }
 
 bool GameBoard::isHorizontalWin(int player, int row) {
