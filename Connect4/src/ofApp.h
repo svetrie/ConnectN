@@ -2,7 +2,17 @@
 
 #include "ofMain.h"
 
+#include <vector>
+using std::vector;
+
 class ofApp : public ofBaseApp{
+	private:
+		vector<vector<ofRectangle>> game_grid;
+		const int GRID_HEIGHT = 6;
+		const int GRID_WIDTH = 7;
+		const int GRID_SQUARE_SIZE = 100;
+		const float INITIAL_Y = 200;
+		const float INITIAL_X = 500;
 
 	public:
 		void setup();
