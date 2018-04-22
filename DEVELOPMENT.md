@@ -20,3 +20,8 @@ was set up differently than I am used to and it took me a lot of trial and error
 I also had trouble separating the different squares in my game board. My board would look like a giant rectangle rather than a grid resembling 
 a Connect4 board. I solved this issue by using the drawLine method to draw vertical and horizontal lines on the boundaries between different 
 squares on the grid. Thus, it is now easy to identify the individual squares that the grid is composed of.
+
+* I ran into some issues when I tried to create a arrow object using openFrameworks' 2D graphics library. Initially, I tried combining a 
+ofRectangle object with an ofTriangle object to create an arrow but I soon realized that shifting the arrow required keeping track of a lot 
+of coordinates and manipulating them. After some research, I realized that openFrameworks' 3D library contains methods that allow you to draw 
+arrows using 3D points. I was able to convert my arrows into 2D objects by setting the z component parameter of the 3D points equal to zero.

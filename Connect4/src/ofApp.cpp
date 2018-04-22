@@ -3,6 +3,10 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	game_grid = vector<vector<ofRectangle>>(GRID_HEIGHT, vector<ofRectangle>(GRID_WIDTH));
+
+	arrow_pos = ofRectangle(INITIAL_X, INITIAL_Y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
+	arrowtail_pos = ofVec3f(arrow_pos.getCenter().x, arrow_pos.getMinY() - GRID_SQUARE_SIZE, 0);
+	arrowhead_pos = ofVec3f(arrow_pos.getCenter().x, arrow_pos.getMinY() - GRID_SQUARE_SIZE + ARROW_HEIGHT, 0);
 }
 
 //--------------------------------------------------------------
@@ -11,8 +15,7 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-	
+void ofApp::drawGrid(){	
 	for (int y = 0; y < GRID_HEIGHT; y++) {
 		for (int x = 0; x < GRID_WIDTH; x++) {
 			ofSetColor(255, 0, 0);
@@ -37,6 +40,15 @@ void ofApp::draw(){
 	
 	//ofDrawRectangle(INITIAL_X, INITIAL_Y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
 	//ofDrawRectangle(6 * GRID_SQUARE_SIZE + INITIAL_X, 5 * GRID_SQUARE_SIZE + INITIAL_Y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
+}
+
+void ofApp::drawArrow() {
+	ofDrawArrow(arrowtail_pos, arrowhead_pos, ARROWHEAD_SIZE);
+}
+
+void ofApp::draw() {
+	drawGrid();
+	drawArrow();
 }
 
 //--------------------------------------------------------------
