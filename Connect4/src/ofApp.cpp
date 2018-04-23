@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	current_state = START_GAME;
+
 	game_grid = vector<vector<ofRectangle>>(GRID_HEIGHT, vector<ofRectangle>(GRID_WIDTH));
 
 	arrow_pos = ofRectangle(INITIAL_X, INITIAL_Y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
@@ -51,9 +53,32 @@ void ofApp::draw() {
 	drawArrow();
 }
 
+void ofApp::shiftArrowPos(bool shift_right) {
+	//Add and conditional to make sure arrow can't be shifted off the screen. Shouldn't be able to
+	// move past inital X + Grid-square-size * grid-width or initial X
+	if (shift_right && arrow_pos.x < (INITIAL_X + GRID_SQUARE_SIZE * (GRID_WIDTH - 1))) {
+		arrow_pos = ofRectangle(arrow_pos.x + GRID_SQUARE_SIZE, arrow_pos.y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
+	} else if (arrow_pos.x != INITIAL_X) {
+		arrow_pos = ofRectangle(arrow_pos.x - GRID_SQUARE_SIZE, arrow_pos.y, GRID_SQUARE_SIZE, GRID_SQUARE_SIZE);
+	}
+
+	reorientArrow();
+}
+
+void ofApp::reorientArrow() {
+	arrowtail_pos = ofVec3f(arrow_pos.getCenter().x, arrow_pos.getMinY() - GRID_SQUARE_SIZE, 0);
+	arrowhead_pos = ofVec3f(arrow_pos.getCenter().x, arrow_pos.getMinY() - GRID_SQUARE_SIZE + ARROW_HEIGHT, 0);
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+	if (key == OF_KEY_LEFT) {
+		shiftArrowPos(false);
+		update();
+	} else if (key == OF_KEY_RIGHT) {
+		shiftArrowPos(true);
+		update();
+	}
 }
 
 //--------------------------------------------------------------

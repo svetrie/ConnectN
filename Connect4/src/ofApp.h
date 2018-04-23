@@ -1,18 +1,30 @@
 #pragma once
 
 #include "ofMain.h"
+#include "GameBoard.h"
 
 #include <vector>
 using std::vector;
 
+enum GameState {
+	START_GAME,
+	PLAYER1_TURN,
+	PLAYER2_TURN,
+	FINISHED
+};
+
 class ofApp : public ofBaseApp{
 	private:
+		GameState current_state;
+
+		GameBoard game_board;
+
 		vector<vector<ofRectangle>> game_grid;
 		const int GRID_HEIGHT = 6;
 		const int GRID_WIDTH = 7;
 		const int GRID_SQUARE_SIZE = 100;
 		const float INITIAL_Y = 200;
-		const float INITIAL_X = 500;
+		const float INITIAL_X = 600;
 
 		ofRectangle arrow_pos;
 		const int ARROW_HEIGHT = 50;
@@ -24,9 +36,14 @@ class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		void update();
+		
 		void draw();
 		void drawGrid();
 		void drawArrow();
+		
+
+		void shiftArrowPos(bool shift_right);
+		void reorientArrow();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
