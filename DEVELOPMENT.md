@@ -25,3 +25,11 @@ squares on the grid. Thus, it is now easy to identify the individual squares tha
 ofRectangle object with an ofTriangle object to create an arrow but I soon realized that shifting the arrow required keeping track of a lot 
 of coordinates and manipulating them. After some research, I realized that openFrameworks' 3D library contains methods that allow you to draw 
 arrows using 3D points. I was able to convert my arrows into 2D objects by setting the z component parameter of the 3D points equal to zero.
+
+* Writing the code that would allow players to drop checkers onto the board by pressing the enter key was a frustrating process. My program would
+freeze and crash every time the enter key was pressed. My intial thoughts were that it was a front end issue with how I was using openFrameworks' 
+draw methods or allocating space on the window using ofRectangle, but upon closer inspection I realized there was a problem with my backend logic. 
+My ofApp class relied on my GameBoard class to handle the logic behind dropping a checker onto the board. The dropChecker() method in my GameBoard 
+class wassupposed to return the row the checker was placed in. Although, the dropChecker() method would place the checker in the correct row 
+internally, it didn't return the correct value which meant my ofApp class would try to access an invalid row when attempting to draw the checker 
+on the board.
