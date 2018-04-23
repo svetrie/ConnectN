@@ -6,6 +6,9 @@
 #include <vector>
 using std::vector;
 
+#include <string>
+using std::string;
+
 enum GameState {
 	START_GAME,
 	PLAYER1_TURN,
@@ -13,11 +16,21 @@ enum GameState {
 	FINISHED
 };
 
+/*
+struct Player {
+	string name;
+	int wins;
+	bool red_checker;
+
+	Player(string player_name) : name(player_name), wins(0), red_checker(false) {};
+};*/
+
 class ofApp : public ofBaseApp{
 	private:
 		GameState current_state;
-
 		GameBoard game_board;
+		//Player player1;
+		//Player player2;
 
 		vector<vector<ofRectangle>> game_grid;
 		const int GRID_HEIGHT = 6;
@@ -26,24 +39,28 @@ class ofApp : public ofBaseApp{
 		const float INITIAL_Y = 200;
 		const float INITIAL_X = 600;
 
-		ofRectangle arrow_pos;
 		const int ARROW_HEIGHT = 50;
-		//const int ARROWHEAD_WIDTH = 25;
+		const int ARROWHEAD_SIZE = 15;
+		ofRectangle arrow_pos;
 		ofVec3f arrowhead_pos;
 		ofVec3f arrowtail_pos;
-		const int ARROWHEAD_SIZE = 15;
+
+		const int CHECKER_RADIUS = 30;
 
 	public:
 		void setup();
 		void update();
-		
 		void draw();
+
+		void initializeGrid();
 		void drawGrid();
-		void drawArrow();
-		
 
 		void shiftArrowPos(bool shift_right);
 		void reorientArrow();
+		void drawArrow();
+		
+		void addChecker();
+		void drawCheckers();
 
 		void keyPressed(int key);
 		void keyReleased(int key);

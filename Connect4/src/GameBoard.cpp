@@ -5,7 +5,7 @@ using std::cout;
 using std::endl;
 
 GameBoard::GameBoard() {
-	board = vector<vector<int>>(6, vector<int>(7, 0));
+	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
 }
 
 vector<vector<int>>& GameBoard::getBoard() {
@@ -26,15 +26,20 @@ void GameBoard::setBoardCol(int col_num, vector<int> new_col) {
 	}
 }
 
-void GameBoard::dropChecker(int player, int column) {
-	int  i;
+// Returns the row the checker was dropped in or -1 if the entire column was full
+int GameBoard::dropChecker(int player, int column) {
+	if (board[0][column] != 0) {
+		return -1;
+	}
 
-	for (i = 0; i < board.size(); i++) {
+	for (int i = 0; i < board.size(); i++) {
 		if (i > 0 && board[i][column] != 0) {
-			board[i - 1][column] = player;
-			//i--;
+			i--;
+			board[i][column] = player;
+			return i;
 		} else if (i == board.size() - 1) {
 			board[i][column] = player;
+			return i;
 		}
 	}
 }
@@ -136,4 +141,8 @@ bool GameBoard::isVerticalWin(int player, int column) {
 	}
 
 	return false;
+}
+
+bool GameBoard::isWin(int player, int row, int column) {
+	return (isDiagonalWin(row, column), isHorizontalWin(player, row), isVerticalWin(player, column));
 }
