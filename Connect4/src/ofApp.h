@@ -3,34 +3,37 @@
 #include "ofMain.h"
 #include "GameBoard.h"
 
+#include "ofxGui.h"
+#include "ofxInputField\src\ofxInputField.h"
+
 #include <vector>
 using std::vector;
 
 #include <string>
 using std::string;
 
-enum GameState {
-	START_GAME,
-	PLAYER1_TURN,
-	PLAYER2_TURN,
-	FINISHED
-};
-
-/*
-struct Player {
-	string name;
-	int wins;
-	bool red_checker;
-
-	Player(string player_name) : name(player_name), wins(0), red_checker(false) {};
-};*/
-
 class ofApp : public ofBaseApp{
+
+	enum GameState {
+		START_GAME,
+		PLAYER1_TURN,
+		PLAYER2_TURN,
+		FINISHED
+	};
+	
+	struct Player {
+		string name;
+		int wins;
+		bool red_checker;
+
+		Player(string player_name) : name(player_name), wins(0), red_checker(false) {};
+	};
+
 	private:
 		GameState current_state;
 		GameBoard game_board;
-		//Player player1;
-		//Player player2;
+		Player* player1;
+		Player* player2;
 
 		vector<vector<ofRectangle>> game_grid;
 		const int GRID_HEIGHT = 6;
@@ -47,6 +50,13 @@ class ofApp : public ofBaseApp{
 
 		const int CHECKER_RADIUS = 30;
 
+		ofxButton ok_button;
+		ofxTextField player1_name;
+		ofxTextField player2_name;
+		ofxPanel gui;
+		//ofxBaseGui gui;
+
+
 	public:
 		void setup();
 		void update();
@@ -62,6 +72,9 @@ class ofApp : public ofBaseApp{
 		void addChecker();
 		void drawCheckers();
 
+		void setupGui();
+		void drawGui();
+
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -74,4 +87,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+		void getPlayersInfo();
 };

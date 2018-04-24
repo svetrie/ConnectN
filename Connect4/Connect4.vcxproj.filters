@@ -35,6 +35,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxInputField\src\ofxInputField.cpp">
+      <Filter>addons\ofxInputField</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -48,6 +51,9 @@
     </Filter>
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{dda65f7a-9efb-49f7-b825-737aab87c069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxInputField">
+      <UniqueIdentifier>{1cc53bda-2a40-4b05-b269-4deebeddd68c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +90,9 @@
     <ClInclude Include="src\GameBoard.h" />
     <ClInclude Include="src\catch.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxInputField\src\ofxInputField.h">
+      <Filter>addons\ofxInputField</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
