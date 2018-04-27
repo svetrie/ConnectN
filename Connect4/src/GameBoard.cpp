@@ -5,7 +5,20 @@ using std::cout;
 using std::endl;
 
 GameBoard::GameBoard() {
+	n_value = DEFAULT_N;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
+}
+
+GameBoard::GameBoard(int connect_n) {
+	n_value = connect_n;
+	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
+}
+
+GameBoard &GameBoard::operator= (const GameBoard& source) {
+	n_value = n_value;
+	board = source.board;
+
+	return *this;
 }
 
 vector<vector<int>>& GameBoard::getBoard() {
@@ -37,7 +50,8 @@ int GameBoard::dropChecker(int player, int column) {
 			i--;
 			board[i][column] = player;
 			return i;
-		} else if (i == board.size() - 1) {
+		} 
+		else if (i == board.size() - 1) {
 			board[i][column] = player;
 			return i;
 		}
@@ -47,22 +61,24 @@ int GameBoard::dropChecker(int player, int column) {
 bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 	int count = 0;
 
-	while (row < board.size() && column < board[row].size()) {
+	while (row < board.size() - 1 && column < board[row].size() - 1) {
 		row++;
 		column++;
 	}
 
-	row--;
-	column--;
+	// Change bounds of while loop
+	//row--;
+	//column--;
 
 	while (row >= 0 && column >= 0) {
 		if (board[row][column] == player) {
 			count++;
-		} else {
+		} 
+		else {
 			count = 0;
 		}
 		
-		if (count >= 4) {
+		if (count >= n_value) {
 			return true;
 		}
 
@@ -76,22 +92,24 @@ bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 	int count = 0;
 
-	while (row < board.size() && column >= 0) {
+	while (row < board.size() - 1 && column >= 1) { //0) {
 		row++;
 		column--;
 	}
 
-	row--;
-	column++;
+	// Change bounds of while loop
+	//row--;
+	//column++;
 
 	while (row >= 0 && column < board[row].size()) {
 		if (board[row][column] == player) {
 			count++;
-		} else {
+		} 
+		else {
 			count = 0;
 		}
 
-		if (count >= 4) {
+		if (count >= n_value) {
 			return true;
 		}
 
@@ -113,11 +131,12 @@ bool GameBoard::isHorizontalWin(int player, int row) {
 	for (int i = 0; i < board[row].size(); i++) {
 		if (board[row][i] == player) {
 			count++;
-		} else {
+		} 
+		else {
 			count = 0;
 		}
 
-		if (count >= 4) {
+		if (count >= n_value) {
 			return true;
 		}
 	}
@@ -131,11 +150,12 @@ bool GameBoard::isVerticalWin(int player, int column) {
 	for (int i = 0; i < board.size(); i++) {
 		if (board[i][column] == player) {
 			count++;
-		} else {
+		} 
+		else {
 			count = 0;
 		}
 
-		if (count >= 4) {
+		if (count >= n_value) {
 			return true;
 		}
 	}

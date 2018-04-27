@@ -5,6 +5,7 @@
 
 #include "ofxGui.h"
 #include "ofxInputField\src\ofxInputField.h"
+//#include "ofxTextField\ofxTextField\ofSystemUtils.h"
 
 #include <vector>
 using std::vector;
@@ -36,11 +37,11 @@ class ofApp : public ofBaseApp{
 		Player* player2;
 
 		vector<vector<ofRectangle>> game_grid;
-		const int GRID_HEIGHT = 6;
-		const int GRID_WIDTH = 7;
+		const int GRID_HEIGHT = 8;
+		const int GRID_WIDTH = 8;
 		const int GRID_SQUARE_SIZE = 100;
-		const float INITIAL_Y = 200;
-		const float INITIAL_X = 600;
+		const float INITIAL_Y_BOARD = 200;
+		const float INITIAL_X_BOARD = 550;
 
 		const int ARROW_HEIGHT = 50;
 		const int ARROWHEAD_SIZE = 15;
@@ -50,10 +51,23 @@ class ofApp : public ofBaseApp{
 
 		const int CHECKER_RADIUS = 30;
 
-		ofxButton ok_button;
-		ofxTextField player1_name;
-		ofxTextField player2_name;
+		//ofxButton ok_button
+		const int INITIAL_X_GUI = 700;
+		const int INITIAL_Y_GUI = 300;
+		const int WIDGET_HEIGHT = 100;
+		const int WIDGET_WIDTH = 400;
+		const int MIN_N = 4;
+		const int MAX_N = 8;
+		const string DIRECTIONS = "Select an N value and click ok to start playing!";
+		const string GREETINGS = "Welcome to ConnectN!";
+
 		ofxPanel gui;
+		ofxTextField player1_info;
+		ofxTextField player2_info;
+		ofxIntSlider choose_N;
+		ofxButton ok_button;
+		ofxLabel welcome_msg;
+		ofxLabel instructions;
 		//ofxBaseGui gui;
 
 
@@ -69,11 +83,11 @@ class ofApp : public ofBaseApp{
 		void reorientArrow();
 		void drawArrow();
 		
-		void addChecker();
+		bool addChecker(); 
 		void drawCheckers();
 
 		void setupGui();
-		void drawGui();
+		void useGuiInfo();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -86,6 +100,4 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
-		void getPlayersInfo();
 };

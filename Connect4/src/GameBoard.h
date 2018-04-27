@@ -9,12 +9,19 @@ using std::vector;
 class GameBoard {
 	private:
 		vector<vector<int>> board;
-		const int BOARD_HEIGHT = 6;
-		const int BOARD_WIDTH = 7;
+		const int BOARD_HEIGHT = 8;
+		const int BOARD_WIDTH = 8;
+		//const int BOARD_HEIGHT = 6;
+		//const int BOARD_WIDTH = 7;
+		const int DEFAULT_N = 4;
+		int n_value;
 	
 	public:
 		GameBoard();
-		
+		GameBoard(int connect_n);
+
+		GameBoard& operator=(const GameBoard& source);
+
 		vector<vector<int>>& getBoard();
 		void setBoardAt(int player, int row, int column);
 		void setBoardRow(int row_num, vector<int> new_row);
