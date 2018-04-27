@@ -15,7 +15,7 @@ GameBoard::GameBoard(int connect_n) {
 }
 
 GameBoard &GameBoard::operator= (const GameBoard& source) {
-	n_value = n_value;
+	n_value = source.n_value;
 	board = source.board;
 
 	return *this;
@@ -164,5 +164,5 @@ bool GameBoard::isVerticalWin(int player, int column) {
 }
 
 bool GameBoard::isWin(int player, int row, int column) {
-	return (isDiagonalWin(row, column), isHorizontalWin(player, row), isVerticalWin(player, column));
+	return (isDiagonalWin(row, column) || isHorizontalWin(player, row) || isVerticalWin(player, column));
 }

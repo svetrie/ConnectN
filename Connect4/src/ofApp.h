@@ -40,8 +40,8 @@ class ofApp : public ofBaseApp{
 		const int GRID_HEIGHT = 8;
 		const int GRID_WIDTH = 8;
 		const int GRID_SQUARE_SIZE = 100;
-		const float INITIAL_Y_BOARD = 200;
-		const float INITIAL_X_BOARD = 550;
+		const float BOARD_Y = 200;
+		const float BOARD_X = 550;
 
 		const int ARROW_HEIGHT = 50;
 		const int ARROWHEAD_SIZE = 15;
@@ -51,25 +51,33 @@ class ofApp : public ofBaseApp{
 
 		const int CHECKER_RADIUS = 30;
 
-		//ofxButton ok_button
-		const int INITIAL_X_GUI = 700;
-		const int INITIAL_Y_GUI = 300;
+		const int START_MENU_X = 700;
+		const int START_MENU_Y = 300;
 		const int WIDGET_HEIGHT = 100;
 		const int WIDGET_WIDTH = 400;
 		const int MIN_N = 4;
 		const int MAX_N = 8;
 		const string DIRECTIONS = "Select an N value and click ok to start playing!";
 		const string GREETINGS = "Welcome to ConnectN!";
-
-		ofxPanel gui;
+		ofxPanel start_menu;
 		ofxTextField player1_info;
 		ofxTextField player2_info;
 		ofxIntSlider choose_N;
 		ofxButton ok_button;
 		ofxLabel welcome_msg;
 		ofxLabel instructions;
-		//ofxBaseGui gui;
 
+		
+		const int SCOREBOARD_X = 100;
+		const int SCOREBOARD_Y = 100;
+		const int SCOREBOARD_WIDTH = 100;
+		const int SCOREBOARD_HEIGHT = 150;
+		const string DESCRIPTION = "SCOREBOARD";
+		ofxPanel scoreboard;
+		ofxLabel description_label;
+		ofxLabel player1_wins;
+		ofxLabel player2_wins;
+	
 
 	public:
 		void setup();
@@ -86,8 +94,10 @@ class ofApp : public ofBaseApp{
 		bool addChecker(); 
 		void drawCheckers();
 
-		void setupGui();
-		void useGuiInfo();
+		void setupStartMenu();
+		void initializeGameSettings();
+
+		void setupScoreboard();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
