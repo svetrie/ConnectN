@@ -7,6 +7,7 @@ using std::endl;
 GameBoard::GameBoard() {
 	n_value = DEFAULT_N;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
+	//winning_sequence = vector<Board_Spot>;
 }
 
 GameBoard::GameBoard(int connect_n) {
@@ -24,6 +25,11 @@ GameBoard &GameBoard::operator= (const GameBoard& source) {
 vector<vector<int>>& GameBoard::getBoard() {
 	return board;
 }
+
+/*
+vector<Board_Spot> GameBoard::getWinningSequence() {
+	return winning_sequence;
+}*/
 
 void GameBoard::setBoardAt(int player, int row, int column) {
 	board[row][column] = player;
@@ -165,4 +171,10 @@ bool GameBoard::isVerticalWin(int player, int column) {
 
 bool GameBoard::isWin(int player, int row, int column) {
 	return (isDiagonalWin(row, column) || isHorizontalWin(player, row) || isVerticalWin(player, column));
+}
+
+void GameBoard::clearBoard() {
+	for (vector<int> &row : board) {
+		row.clear();
+	}
 }

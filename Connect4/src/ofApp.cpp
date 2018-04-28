@@ -64,8 +64,11 @@ bool ofApp::addChecker() {
 	//Check that row isn't equal to -1 before trying to access it 
 	//Check if player won using isWin() method in GameBoard class and change state to finished if true
 
-	if (row > -1) {
-		current_state = (game_board.isWin(player_num, row, column)) ? FINISHED : current_state;
+	if (row > -1 && game_board.isWin(player_num, row, column)) {
+		winner = (current_state == PLAYER1_TURN) ? player1 : player2;
+		winner->wins = winner->wins + 1;
+		current_state = FINISHED;
+		setupDisplayResults();
 	}
 
 	//Returns whether or not current player was able to sucessfully drop a checker 
@@ -90,7 +93,7 @@ void ofApp::drawCheckers() {
 
 void ofApp::setupStartMenu() {
 	//ofSetVerticalSync(true);
-	
+
 	start_menu.setup();
 	start_menu.setPosition(START_MENU_X, START_MENU_Y);
 	start_menu.setSize(WIDGET_WIDTH, WIDGET_WIDTH);
@@ -109,27 +112,40 @@ void ofApp::setupStartMenu() {
 void ofApp::setupScoreboard() {
 	scoreboard.setup();
 	scoreboard.setPosition(SCOREBOARD_X, SCOREBOARD_Y);
+	
 	scoreboard.add(description_label.setup(DESCRIPTION, 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
-	scoreboard.add(player1_wins.setup(player1->name + ":" + to_string(player1->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
-	scoreboard.add(player2_wins.setup(player2->name + ":" + to_string(player2->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
+	scoreboard.add(player1_wins.setup(player1->name + " : " + to_string(player1->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
+	scoreboard.add(player2_wins.setup(player2->name + " : " + to_string(player2->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
 
 	//ofDrawBitmapString(player1->name + ":" + to_string(player1->wins), 100, 100);
 	//ofDrawBitmapString(player2->name + ":" + to_string(player2->wins), 100, 150);
 }
 
+void ofApp::setupDisplayResults() {
+	display_results.setup();
+	display_results.setPosition(DISPLAY_RESULTS_X, DISPLAY_RESULTS_Y);
+	
+	display_results.add(winner_msg.setup(winner->name + " won the game!!", WIDGET_WIDTH, WIDGET_HEIGHT));
+	display_results.add(choose_N.setup("N Value", MIN_N, MIN_N, MAX_N, WIDGET_WIDTH, WIDGET_HEIGHT));
+	display_results.add(play_again.setup("Play Again!", WIDGET_WIDTH, WIDGET_HEIGHT));
+	display_results.add(exit_msg.setup(HOW_TO_EXIT, WIDGET_WIDTH, WIDGET_HEIGHT));
+}
+
 void ofApp::initializeGameSettings() {
 	game_board = GameBoard(choose_N);
 
-	player1 = new Player(player1_info);
-	player2 = new Player(player2_info);
+	if (player1 == nullptr && player2 == nullptr) {
+		player1 = new Player(player1_info);
+		player2 = new Player(player2_info);
+	}
 }
 
 void ofApp::draw() {
 	if (current_state == START_GAME) {
 		start_menu.draw();
-		initializeGameSettings();
 		
 		if (ok_button) {
+			initializeGameSettings();
 			setupScoreboard();
 			current_state = PLAYER1_TURN;
 		}
@@ -139,11 +155,16 @@ void ofApp::draw() {
 		drawGrid();
 		drawArrow();
 		drawCheckers();
-		//drawScoreboard();
 		scoreboard.draw();
 	}
 	else if (current_state == FINISHED) {
-		ofDrawTriangle(100, 100, 100, 100, 100, 100);
+		display_results.draw();
+
+		if (play_again) {
+			initializeGameSettings();
+			setupScoreboard();
+			current_state = (winner == player1) ? PLAYER2_TURN : PLAYER1_TURN;
+		}
 	}
 }
 
@@ -173,13 +194,14 @@ void ofApp::keyPressed(int key){
 			shiftArrowPos(true);
 		} 
 		else if (key == OF_KEY_RETURN) {
-			//Ends current player's turn only if current player was able to drop a checker succesfully 
+			//Ends current player's turn only if current player was able to drop a checker succesfully
 			if (addChecker() && current_state != FINISHED) {
 				current_state = (current_state == PLAYER1_TURN) ? PLAYER2_TURN : PLAYER1_TURN;
 			}
 		}
-		update();
 	}
+
+	update();
 }
 
 //--------------------------------------------------------------

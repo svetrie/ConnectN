@@ -35,6 +35,7 @@ class ofApp : public ofBaseApp{
 		GameBoard game_board;
 		Player* player1;
 		Player* player2;
+		Player* winner;
 
 		vector<vector<ofRectangle>> game_grid;
 		const int GRID_HEIGHT = 8;
@@ -66,7 +67,6 @@ class ofApp : public ofBaseApp{
 		ofxButton ok_button;
 		ofxLabel welcome_msg;
 		ofxLabel instructions;
-
 		
 		const int SCOREBOARD_X = 100;
 		const int SCOREBOARD_Y = 100;
@@ -77,8 +77,17 @@ class ofApp : public ofBaseApp{
 		ofxLabel description_label;
 		ofxLabel player1_wins;
 		ofxLabel player2_wins;
-	
 
+		const int DISPLAY_RESULTS_X = 100;
+		const int DISPLAY_RESULTS_Y = 100;
+		const string HOW_TO_EXIT = "(To exit the game, press ESC)";
+		//const int DISPLAY_RESULTS_WIDTH = 400;
+		//const int DISPLAY_RESULTS_HEIGHT = 100;;
+		ofxPanel display_results;
+		ofxLabel winner_msg;
+		ofxLabel exit_msg;
+		ofxButton play_again;
+	
 	public:
 		void setup();
 		void update();
@@ -98,6 +107,8 @@ class ofApp : public ofBaseApp{
 		void initializeGameSettings();
 
 		void setupScoreboard();
+
+		void setupDisplayResults();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
