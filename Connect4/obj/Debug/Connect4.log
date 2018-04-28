@@ -1,12 +1,5 @@
-﻿  GameBoard.cpp
-src\GameBoard.cpp(43): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(54): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(70): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(104): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(113): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(143): warning C4018: '<': signed/unsigned mismatch
-src\GameBoard.cpp(165): warning C4018: '<': signed/unsigned mismatch
-c:\users\vet senthil\visual studio 2015\of_v0.9.8_vs_release\apps\connect4\connect4\src\gameboard.cpp(65): warning C4715: 'GameBoard::dropChecker': not all control paths return a value
+﻿  main.cpp
+  ofApp.cpp
   Connect4.vcxproj -> C:\Users\Vet Senthil\Visual Studio 2015\of_v0.9.8_vs_release\apps\Connect4\Connect4\bin\Connect4_debug.exe
   Connect4.vcxproj -> bin\Connect4_debug.pdb (Full PDB)
   

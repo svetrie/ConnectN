@@ -52,10 +52,11 @@ class ofApp : public ofBaseApp{
 
 		const int CHECKER_RADIUS = 30;
 
-		const int START_MENU_X = 700;
-		const int START_MENU_Y = 300;
 		const int WIDGET_HEIGHT = 100;
 		const int WIDGET_WIDTH = 400;
+
+		const int START_MENU_X = 700;
+		const int START_MENU_Y = 200;
 		const int MIN_N = 4;
 		const int MAX_N = 8;
 		const string DIRECTIONS = "Select an N value and click ok to start playing!";
@@ -81,12 +82,16 @@ class ofApp : public ofBaseApp{
 		const int DISPLAY_RESULTS_X = 100;
 		const int DISPLAY_RESULTS_Y = 100;
 		const string HOW_TO_EXIT = "(To exit the game, press ESC)";
-		//const int DISPLAY_RESULTS_WIDTH = 400;
-		//const int DISPLAY_RESULTS_HEIGHT = 100;;
 		ofxPanel display_results;
 		ofxLabel winner_msg;
 		ofxLabel exit_msg;
 		ofxButton play_again;
+
+		const string THUD_SOUND_FILE = "Thud.mp3";
+		const string ERROR_SOUND_FILE = "Xylophone.mp3";
+		ofSoundPlayer thud_sound;
+		ofSoundPlayer error_sound;
+
 	
 	public:
 		void setup();
@@ -109,8 +114,10 @@ class ofApp : public ofBaseApp{
 		void setupDisplayResults();
 
 		void initializeGameSettings();
+		void finishGame();
 
 		void keyPressed(int key);
+
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);

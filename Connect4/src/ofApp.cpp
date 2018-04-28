@@ -4,8 +4,8 @@
 void ofApp::setup() {
 	setupStartMenu();
 
-	//scoreboard.setup();
-	//scoreboard.setPosition(SCOREBOARD_X, SCOREBOARD_Y);
+	thud_sound.load(THUD_SOUND_FILE);
+	error_sound.load(ERROR_SOUND_FILE);
 
 	current_state = START_GAME;
 	
@@ -18,7 +18,7 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+	
 }
 
 //--------------------------------------------------------------
@@ -53,26 +53,36 @@ void ofApp::drawGrid() {
 }
 
 void ofApp::drawArrow() {
+	//Conditionals switch arrow color depending on which player's turn it is
+	if (current_state == PLAYER1_TURN) {
+		ofSetColor(0, 0, 0);
+	}
+	else {
+		ofSetColor(255, 255, 255);
+	}
+	
 	ofDrawArrow(arrowtail_pos, arrowhead_pos, ARROWHEAD_SIZE);
 }
 
+//Returns whether or not player was able to sucessfully drop checker into a column
 bool ofApp::addChecker() {
 	int player_num = (current_state == PLAYER1_TURN) ? 1 : 2;
 	int column = (arrow_pos.getMinX() - BOARD_X) / GRID_SQUARE_SIZE;
 	int row = game_board.dropChecker(player_num, column);
 
-	//Check that row isn't equal to -1 before trying to access it 
-	//Check if player won using isWin() method in GameBoard class and change state to finished if true
-
-	if (row > -1 && game_board.isWin(player_num, row, column)) {
-		winner = (current_state == PLAYER1_TURN) ? player1 : player2;
-		winner->wins = winner->wins + 1;
-		current_state = FINISHED;
-		setupDisplayResults();
+	//If row == -1, then player tried to drop checker in full column which is an invalid move
+	if (row == -1) {
+		error_sound.play();
+		return false;
 	}
 
-	//Returns whether or not current player was able to sucessfully drop a checker 
-	return (row > -1);
+	thud_sound.play();
+	
+	if (game_board.isWin(player_num, row, column)) {
+		finishGame();
+	}
+
+	return true;
 }
 
 void ofApp::drawCheckers() {
@@ -99,8 +109,6 @@ void ofApp::drawWinningSequence() {
 }
 
 void ofApp::setupStartMenu() {
-	//ofSetVerticalSync(true);
-
 	start_menu.setup();
 	start_menu.setPosition(START_MENU_X, START_MENU_Y);
 	start_menu.setSize(WIDGET_WIDTH, WIDGET_WIDTH);
@@ -123,9 +131,6 @@ void ofApp::setupScoreboard() {
 	scoreboard.add(description_label.setup(DESCRIPTION, 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
 	scoreboard.add(player1_wins.setup(player1->name + " : " + to_string(player1->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
 	scoreboard.add(player2_wins.setup(player2->name + " : " + to_string(player2->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
-
-	//ofDrawBitmapString(player1->name + ":" + to_string(player1->wins), 100, 100);
-	//ofDrawBitmapString(player2->name + ":" + to_string(player2->wins), 100, 150);
 }
 
 void ofApp::setupDisplayResults() {
@@ -141,13 +146,26 @@ void ofApp::setupDisplayResults() {
 void ofApp::initializeGameSettings() {
 	game_board = GameBoard(choose_N);
 
+	//Avoid resetting players' info every time a game starts 
 	if (player1 == nullptr && player2 == nullptr) {
 		player1 = new Player(player1_info);
 		player2 = new Player(player2_info);
 	}
 }
 
+//Updates winner's info and changes game's state to finished 
+void ofApp::finishGame() {
+	winner = (current_state == PLAYER1_TURN) ? player1 : player2;
+	winner->wins = winner->wins + 1;
+	
+	current_state = FINISHED;
+	
+	setupDisplayResults();
+}
+
 void ofApp::draw() {
+	ofSetBackgroundColor(140, 140, 140);
+
 	if (current_state == START_GAME) {
 		start_menu.draw();
 		
@@ -196,18 +214,20 @@ void ofApp::reorientArrow() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if (current_state == PLAYER1_TURN || current_state == PLAYER2_TURN) {
-		if (key == OF_KEY_LEFT) {
-			shiftArrowPos(false);
-		} 
-		else if (key == OF_KEY_RIGHT) {
-			shiftArrowPos(true);
-		} 
-		else if (key == OF_KEY_RETURN) {
-			//Ends current player's turn only if current player was able to drop a checker succesfully
-			if (addChecker() && current_state != FINISHED) {
-				current_state = (current_state == PLAYER1_TURN) ? PLAYER2_TURN : PLAYER1_TURN;
-			}
+	if (current_state != PLAYER1_TURN && current_state != PLAYER2_TURN) {
+		return;
+	}
+		
+	if (key == OF_KEY_LEFT) {
+		shiftArrowPos(false);
+	}
+	else if (key == OF_KEY_RIGHT) {
+		shiftArrowPos(true);
+	}
+	else if (key == OF_KEY_RETURN) {
+		//Ends current player's turn only if current player was able to drop a checker succesfully
+		if (addChecker() && current_state != FINISHED) {
+			current_state = (current_state == PLAYER1_TURN) ? PLAYER2_TURN : PLAYER1_TURN;
 		}
 	}
 

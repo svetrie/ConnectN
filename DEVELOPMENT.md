@@ -44,3 +44,8 @@ method() since the GUI would only be displayed once. After shifting some of my c
 functionality to accept text input but the library mostly contains basic features like sliders and buttons. To allow my players to enter in their
 names before the game began, I had to search for an alternate addon that was compatible with openFrameworks. After some googling, I decided to use
 ofxInputField
+
+* I had some issues using the ofSoundPlayer library from openFrameworks. I was unable to load .mp3 files using the load() method. The compiler kept
+telling me that it could not find the location for the .mp3 files even though I cut and pasted the correct paths. Eventually I realized what my problem
+was after looking for some solutions online. The load method() automatically attaches "bin/data/" to the file path provided to it. So, to correctly load
+the .mp3 files, I had to place them under the data folder and only include their filenames as parameters.
