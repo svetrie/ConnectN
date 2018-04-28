@@ -102,13 +102,13 @@ class ofApp : public ofBaseApp{
 		
 		bool addChecker(); 
 		void drawCheckers();
+		void drawWinningSequence();
 
 		void setupStartMenu();
-		void initializeGameSettings();
-
 		void setupScoreboard();
-
 		void setupDisplayResults();
+
+		void initializeGameSettings();
 
 		void keyPressed(int key);
 		void keyReleased(int key);

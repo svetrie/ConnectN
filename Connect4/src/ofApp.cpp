@@ -91,6 +91,13 @@ void ofApp::drawCheckers() {
 	}
 }
 
+void ofApp::drawWinningSequence() {
+	for (auto board_spot : game_board.getWinningSequence()) {
+		ofSetColor(255, 255, 0);
+		ofDrawRectangle(game_grid[board_spot.row][board_spot.column]);
+	}
+}
+
 void ofApp::setupStartMenu() {
 	//ofSetVerticalSync(true);
 
@@ -159,6 +166,9 @@ void ofApp::draw() {
 	}
 	else if (current_state == FINISHED) {
 		display_results.draw();
+		drawGrid();
+		drawWinningSequence();
+		drawCheckers();
 
 		if (play_again) {
 			initializeGameSettings();

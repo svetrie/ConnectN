@@ -7,12 +7,13 @@ using std::endl;
 GameBoard::GameBoard() {
 	n_value = DEFAULT_N;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
-	//winning_sequence = vector<Board_Spot>;
+	winning_sequence = vector<Board_Spot>(n_value);
 }
 
 GameBoard::GameBoard(int connect_n) {
 	n_value = connect_n;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
+	winning_sequence = vector<GameBoard::Board_Spot>(n_value);
 }
 
 GameBoard &GameBoard::operator= (const GameBoard& source) {
@@ -26,10 +27,9 @@ vector<vector<int>>& GameBoard::getBoard() {
 	return board;
 }
 
-/*
-vector<Board_Spot> GameBoard::getWinningSequence() {
+vector<typename GameBoard::Board_Spot>& GameBoard::getWinningSequence() {
 	return winning_sequence;
-}*/
+}
 
 void GameBoard::setBoardAt(int player, int row, int column) {
 	board[row][column] = player;
@@ -79,9 +79,11 @@ bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 	while (row >= 0 && column >= 0) {
 		if (board[row][column] == player) {
 			count++;
+			winning_sequence.push_back(Board_Spot(row, column));
 		} 
 		else {
 			count = 0;
+			winning_sequence.clear();
 		}
 		
 		if (count >= n_value) {
@@ -92,6 +94,7 @@ bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 		column--;
 	}
 
+	winning_sequence.clear();
 	return false;
 }
 
@@ -110,9 +113,11 @@ bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 	while (row >= 0 && column < board[row].size()) {
 		if (board[row][column] == player) {
 			count++;
+			winning_sequence.push_back(Board_Spot(row, column));
 		} 
 		else {
 			count = 0;
+			winning_sequence.clear();
 		}
 
 		if (count >= n_value) {
@@ -123,6 +128,7 @@ bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 		column++;
 	}
 
+	winning_sequence.clear();
 	return false;
 }
 
@@ -137,9 +143,11 @@ bool GameBoard::isHorizontalWin(int player, int row) {
 	for (int i = 0; i < board[row].size(); i++) {
 		if (board[row][i] == player) {
 			count++;
+			winning_sequence.push_back(Board_Spot(row, i));
 		} 
 		else {
 			count = 0;
+			winning_sequence.clear();
 		}
 
 		if (count >= n_value) {
@@ -147,6 +155,7 @@ bool GameBoard::isHorizontalWin(int player, int row) {
 		}
 	}
 
+	winning_sequence.clear();
 	return false;
  }
 
@@ -156,9 +165,11 @@ bool GameBoard::isVerticalWin(int player, int column) {
 	for (int i = 0; i < board.size(); i++) {
 		if (board[i][column] == player) {
 			count++;
+			winning_sequence.push_back(Board_Spot(i, column));
 		} 
 		else {
 			count = 0;
+			winning_sequence.clear();
 		}
 
 		if (count >= n_value) {
@@ -166,6 +177,7 @@ bool GameBoard::isVerticalWin(int player, int column) {
 		}
 	}
 
+	winning_sequence.clear();
 	return false;
 }
 

@@ -10,17 +10,16 @@ using std::pair;
 
 class GameBoard {
 
-	/*
 	struct Board_Spot {
 		int row;
 		int column;
 		Board_Spot() : row(-1), column(-1) {};
 		Board_Spot(int r, int c) : row(r), column(c) {};
-	};*/
+	};
 
 	private:
 		vector<vector<int>> board;
-		//vector<Board_Spot> winning_sequence;
+		vector<Board_Spot> winning_sequence;
 		const int BOARD_HEIGHT = 8;
 		const int BOARD_WIDTH = 8;
 		const int DEFAULT_N = 4;
@@ -33,7 +32,7 @@ class GameBoard {
 		GameBoard& operator=(const GameBoard& source);
 
 		vector<vector<int>>& getBoard();
-		//vector<Board_Spot>& getWinningSequence();
+		vector<typename GameBoard::Board_Spot>& getWinningSequence();
 
 		void setBoardAt(int player, int row, int column);
 		void setBoardRow(int row_num, vector<int> new_row);
