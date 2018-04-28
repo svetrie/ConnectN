@@ -10,3 +10,9 @@
 I’ve included some links to the libraries I will be using below:
 Cairo : https://cairographics.org/
 ofSoundPlayer: http://openframeworks.cc/documentation/sound/ofSoundPlayer/
+
+EDIT:
+	I decided not to use Cairo for this project since openFrameworks' graphics library contained all the functionality my game needed. On the otherhand, 
+	a library I did not mention above but ended up using was the ofxInputField addon. This library allowed me to accept text input through a GUI, a feature
+	that ofxGUI lacks. I used this feature to allow players to enter in their names, which would then appear on the scoreboard.
+	
