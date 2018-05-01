@@ -6,20 +6,19 @@
 #include<vector>
 using std::vector;
 
-using std::pair;
-
 class GameBoard {
 
-	struct Board_Spot {
+	struct BoardSpot {
 		int row;
 		int column;
-		Board_Spot() : row(-1), column(-1) {};
-		Board_Spot(int r, int c) : row(r), column(c) {};
+
+		BoardSpot() : row(-1), column(-1) {};
+		BoardSpot(int r, int c) : row(r), column(c) {};
 	};
 
 	private:
 		vector<vector<int>> board;
-		vector<Board_Spot> winning_sequence;
+		vector<BoardSpot> winning_sequence;
 		const int BOARD_HEIGHT = 8;
 		const int BOARD_WIDTH = 8;
 		const int DEFAULT_N = 4;
@@ -32,18 +31,18 @@ class GameBoard {
 		GameBoard& operator=(const GameBoard& source);
 
 		vector<vector<int>>& getBoard();
-		vector<typename GameBoard::Board_Spot>& getWinningSequence();
+		vector<typename GameBoard::BoardSpot>& getWinningSequence();
 
 		void setBoardAt(int player, int row, int column);
 		void setBoardRow(int row_num, vector<int> new_row);
 		void setBoardCol(int col_num, vector<int> new_col);
 
-		bool isDiagonalWin(int row, int column);
 		bool isForwardDiagonalWin(int player, int row, int column);
 		bool isBackwardDiagonalWin(int player, int row, int column);
 		bool isVerticalWin(int player, int column);
 		bool isHorizontalWin(int player, int row);
 		bool isWin(int player, int row, int column);
+		bool isBoardFull();
 		
 		int dropChecker(int player, int column);
 

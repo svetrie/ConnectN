@@ -1,19 +1,15 @@
 #include "GameBoard.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 GameBoard::GameBoard() {
 	n_value = DEFAULT_N;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
-	winning_sequence = vector<Board_Spot>(n_value);
+	winning_sequence = vector<BoardSpot>(n_value);
 }
 
 GameBoard::GameBoard(int connect_n) {
 	n_value = connect_n;
 	board = vector<vector<int>>(BOARD_HEIGHT, vector<int>(BOARD_WIDTH, 0));
-	winning_sequence = vector<GameBoard::Board_Spot>(n_value);
+	winning_sequence = vector<GameBoard::BoardSpot>(n_value);
 }
 
 GameBoard &GameBoard::operator= (const GameBoard& source) {
@@ -27,7 +23,7 @@ vector<vector<int>>& GameBoard::getBoard() {
 	return board;
 }
 
-vector<typename GameBoard::Board_Spot>& GameBoard::getWinningSequence() {
+vector<typename GameBoard::BoardSpot>& GameBoard::getWinningSequence() {
 	return winning_sequence;
 }
 
@@ -72,14 +68,10 @@ bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 		column++;
 	}
 
-	// Change bounds of while loop
-	//row--;
-	//column--;
-
 	while (row >= 0 && column >= 0) {
 		if (board[row][column] == player) {
 			count++;
-			winning_sequence.push_back(Board_Spot(row, column));
+			winning_sequence.push_back(BoardSpot(row, column));
 		} 
 		else {
 			count = 0;
@@ -101,19 +93,15 @@ bool GameBoard::isBackwardDiagonalWin(int player, int row, int column) {
 bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 	int count = 0;
 
-	while (row < board.size() - 1 && column >= 1) { //0) {
+	while (row < board.size() - 1 && column >= 1) {
 		row++;
 		column--;
 	}
 
-	// Change bounds of while loop
-	//row--;
-	//column++;
-
 	while (row >= 0 && column < board[row].size()) {
 		if (board[row][column] == player) {
 			count++;
-			winning_sequence.push_back(Board_Spot(row, column));
+			winning_sequence.push_back(BoardSpot(row, column));
 		} 
 		else {
 			count = 0;
@@ -132,18 +120,13 @@ bool GameBoard::isForwardDiagonalWin(int player, int row, int column) {
 	return false;
 }
 
-bool GameBoard::isDiagonalWin(int row, int column) {
-	int player = board[row][column];
-	return (isForwardDiagonalWin(player, row, column) || isBackwardDiagonalWin(player, row, column));
-}
-
 bool GameBoard::isHorizontalWin(int player, int row) {
 	int count = 0;
 
 	for (int i = 0; i < board[row].size(); i++) {
 		if (board[row][i] == player) {
 			count++;
-			winning_sequence.push_back(Board_Spot(row, i));
+			winning_sequence.push_back(BoardSpot(row, i));
 		} 
 		else {
 			count = 0;
@@ -165,7 +148,7 @@ bool GameBoard::isVerticalWin(int player, int column) {
 	for (int i = 0; i < board.size(); i++) {
 		if (board[i][column] == player) {
 			count++;
-			winning_sequence.push_back(Board_Spot(i, column));
+			winning_sequence.push_back(BoardSpot(i, column));
 		} 
 		else {
 			count = 0;
@@ -182,7 +165,19 @@ bool GameBoard::isVerticalWin(int player, int column) {
 }
 
 bool GameBoard::isWin(int player, int row, int column) {
-	return (isDiagonalWin(row, column) || isHorizontalWin(player, row) || isVerticalWin(player, column));
+	return (isForwardDiagonalWin(player, row, column) || isBackwardDiagonalWin(player, row, column) 
+		|| isHorizontalWin(player, row) || isVerticalWin(player, column));
+}
+
+//Checks that top row has at least one empty position. Otherwise the board is full
+bool GameBoard::isBoardFull() {
+	for (int i = 0; i < board[0].size(); i++) {
+		if (board[0][i] == 0) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void GameBoard::clearBoard() {

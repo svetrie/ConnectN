@@ -78,8 +78,12 @@ bool ofApp::addChecker() {
 
 	thud_sound.play();
 	
+	//Checks if the player won or if the board is now full and the game is a tie
 	if (game_board.isWin(player_num, row, column)) {
-		finishGame();
+		finishGame(true);
+	}
+	else if (game_board.isBoardFull()) {
+		finishGame(false);
 	}
 
 	return true;
@@ -101,6 +105,7 @@ void ofApp::drawCheckers() {
 	}
 }
 
+//Highlights the winning sequence after a game ends
 void ofApp::drawWinningSequence() {
 	for (auto board_spot : game_board.getWinningSequence()) {
 		ofSetColor(255, 255, 0);
@@ -133,11 +138,17 @@ void ofApp::setupScoreboard() {
 	scoreboard.add(player2_wins.setup(player2->name + " : " + to_string(player2->wins), 2 * SCOREBOARD_WIDTH, SCOREBOARD_HEIGHT / 3));
 }
 
-void ofApp::setupDisplayResults() {
+void ofApp::setupDisplayResults(bool isWin) {
 	display_results.setup();
 	display_results.setPosition(DISPLAY_RESULTS_X, DISPLAY_RESULTS_Y);
 	
-	display_results.add(winner_msg.setup(winner->name + " won the game!!", WIDGET_WIDTH, WIDGET_HEIGHT));
+	if (isWin) {
+		display_results.add(end_game_msg.setup(winner->name + " won the game!!", WIDGET_WIDTH, WIDGET_HEIGHT));
+	}
+	else {
+		display_results.add(end_game_msg.setup(TIE_GAME_MSG, WIDGET_WIDTH, WIDGET_HEIGHT));
+	}
+	
 	display_results.add(choose_N.setup("N Value", MIN_N, MIN_N, MAX_N, WIDGET_WIDTH, WIDGET_HEIGHT));
 	display_results.add(play_again.setup("Play Again!", WIDGET_WIDTH, WIDGET_HEIGHT));
 	display_results.add(exit_msg.setup(HOW_TO_EXIT, WIDGET_WIDTH, WIDGET_HEIGHT));
@@ -146,21 +157,22 @@ void ofApp::setupDisplayResults() {
 void ofApp::initializeGameSettings() {
 	game_board = GameBoard(choose_N);
 
-	//Avoid resetting players' info every time a game starts 
+	//Avoid resetting players' info every time a new game starts 
 	if (player1 == nullptr && player2 == nullptr) {
 		player1 = new Player(player1_info);
 		player2 = new Player(player2_info);
 	}
 }
 
-//Updates winner's info and changes game's state to finished 
-void ofApp::finishGame() {
-	winner = (current_state == PLAYER1_TURN) ? player1 : player2;
-	winner->wins = winner->wins + 1;
+//Sets the game state to finished and updates the winner's info if the game wasn't a tie
+void ofApp::finishGame(bool isWin) {
+	if (isWin) {
+		winner = (current_state == PLAYER1_TURN) ? player1 : player2;
+		winner->wins = winner->wins + 1;
+	}
 	
 	current_state = FINISHED;
-	
-	setupDisplayResults();
+	setupDisplayResults(isWin);
 }
 
 void ofApp::draw() {
@@ -174,7 +186,6 @@ void ofApp::draw() {
 			setupScoreboard();
 			current_state = PLAYER1_TURN;
 		}
-
 	} 
 	else if (current_state == PLAYER1_TURN || current_state == PLAYER2_TURN){
 		drawGrid();

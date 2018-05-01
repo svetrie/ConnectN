@@ -25,9 +25,8 @@ class ofApp : public ofBaseApp{
 	struct Player {
 		string name;
 		int wins;
-		bool red_checker;
 
-		Player(string player_name) : name(player_name), wins(0), red_checker(false) {};
+		Player(string player_name) : name(player_name), wins(0){};
 	};
 
 	private:
@@ -81,9 +80,10 @@ class ofApp : public ofBaseApp{
 
 		const int DISPLAY_RESULTS_X = 100;
 		const int DISPLAY_RESULTS_Y = 100;
+		const string TIE_GAME_MSG = "The board is full. The game is a tie";
 		const string HOW_TO_EXIT = "(To exit the game, press ESC)";
 		ofxPanel display_results;
-		ofxLabel winner_msg;
+		ofxLabel end_game_msg;
 		ofxLabel exit_msg;
 		ofxButton play_again;
 
@@ -91,7 +91,6 @@ class ofApp : public ofBaseApp{
 		const string ERROR_SOUND_FILE = "Xylophone.mp3";
 		ofSoundPlayer thud_sound;
 		ofSoundPlayer error_sound;
-
 	
 	public:
 		void setup();
@@ -111,10 +110,10 @@ class ofApp : public ofBaseApp{
 
 		void setupStartMenu();
 		void setupScoreboard();
-		void setupDisplayResults();
+		void setupDisplayResults(bool isWin);
 
 		void initializeGameSettings();
-		void finishGame();
+		void finishGame(bool isWin);
 
 		void keyPressed(int key);
 
