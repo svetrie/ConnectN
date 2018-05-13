@@ -1,4 +1,4 @@
-# CS 126 FinalProject
+# ConnectN
 
 PROJECT DESCRIPTION
 ConnectN is a variation of Connect4 that allows players to choose the number of the consecutive checkers needed to win. N values range from 4 to 8.
